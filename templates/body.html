@@ -1,0 +1,39 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+<script src="static\js\controller\control_drag.js"></script>
+<div class="accordion " id="accordionFlushExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed bg  bg-dark text-light" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                Board 1
+            </button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse bg bg-dark " aria-labelledby="flush-headingOne"
+            data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <table class="table table-bordered ">
+                    <thead>
+                        <tr>
+                            <th class="text-light col-sm-3" scope="col">NEW</th>
+                            <th class="text-light col-sm-3" scope="col">IN PROGRESS</th>
+                            <th class="text-light col-sm-3" scope="col">TESTING</th>
+                            <th class="text-light col-sm-3" scope="col">DONE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr >
+                            <td class="card-slot"><div class="card" draggable="true">
+                            <p>d</p>
+                            </div></td>
+                            <td class="card-slot"></td>
+                            <td class="card-slot"></td>
+                            <td class="card-slot"></td>
+                        </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>

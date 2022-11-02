@@ -3,6 +3,9 @@ body{
     color: aliceblue;
 }
 
-#boards {
+/* #boards {
     background-color: green;
+} */
+.empty-space{
+    height: 50px;
 }
