@@ -8,6 +8,7 @@ mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv()
 
+
 @app.route("/")
 def index():
     """
@@ -36,7 +37,6 @@ def get_cards_for_board(board_id: int):
 
 
 def main():
-    app.run(debug=True)
 
     # Serving the favicon
     with app.app_context():
@@ -44,4 +44,5 @@ def main():
 
 
 if __name__ == '__main__':
+    app.run(debug=True)
     main()
