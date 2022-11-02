@@ -47,7 +47,8 @@ CREATE TABLE cards (
 CREATE TABLE users (
     id          SERIAL PRIMARY KEY  NOT NULL,
     user_name   text                NOT NULL,
-    password    text                NOT NULL
+    password    text                NOT NULL,
+    e_mail      text                NOT NULL
 );
 
 ---
@@ -76,7 +77,7 @@ INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 2);
 
 
-INSERT INTO users (user_name, password) VALUES ('admin', 'admin1');
+INSERT INTO users (user_name, password, e_mail) VALUES ('admin', 'admin1', 'admin@wp.pl');
 
 
 

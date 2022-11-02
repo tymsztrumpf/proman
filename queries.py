@@ -44,7 +44,23 @@ def get_cards_for_board(board_id):
 
     return matching_cards
 
-def insert_new_user(user_name, password):
+def insert_new_user(user_name, password, email):
     data_manager.execute_insert("""
-        INSERT INTO users (user_name, password) VALUES (%(user_name)s, %(password)s)
-    """, {'user_name': user_name, 'password': password})
+        INSERT INTO users (user_name, password, e_mail) VALUES (%(user_name)s, %(password)s, %(email)s)
+    """, {'user_name': user_name, 'password': password, 'email': email})
+
+def check_if_user_name_is_free(user_name):
+    result = data_manager.execute_select("""
+        SELECT 1 as result
+        FROM users
+        WHERE users.user_name = %(user_name)s
+    """, {'user_name': user_name})
+    return result
+
+def chech_if_email_is_free(email):
+    result = data_manager.execute_select("""
+        SELECT 1 as result
+        FROM users
+        WHERE users.e_mail = %(email)s
+    """, {'email': email})
+    return result

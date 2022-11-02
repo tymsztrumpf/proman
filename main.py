@@ -34,8 +34,15 @@ def user_register():
         if pass1 == pass2:
             encoded_pass = pass1.encode(encoding='UTF-8')
             hashed_pass = bcrypt.hashpw(encoded_pass, salt=salt)
-            queries.insert_new_user(user_name, hashed_pass)
-        print(user_name, email, pass1, pass2, hashed_pass)
+            is_name_free = queries.check_if_user_name_is_free(user_name)
+            is_email_free = queries.chech_if_email_is_free(email)
+            print(is_name_free)
+            if is_name_free == [] and is_email_free == []:
+                queries.insert_new_user(user_name, hashed_pass, email)
+            elif is_name_free != []:
+                print('login zajęty')
+            else:
+                print("Email zajęty")
         return redirect(url_for('index'))
 
 
