@@ -3,6 +3,12 @@ import psycopg2
 import psycopg2.extras
 
 
+
+os.environ['MY_PSQL_USER'] = 'postgres'
+os.environ['MY_PSQL_PASSWORD'] = 'Jula12345'
+os.environ['MY_PSQL_HOST'] = 'localhost'
+os.environ['MY_PSQL_DBNAME'] = 'ProMan'
+
 def establish_connection(connection_data=None):
     """
     Create a database connection based on the :connection_data: parameter

@@ -1,3 +1,11 @@
-#boards {
+body{
+    background-color: #2F3336;
+    color: aliceblue;
+}
+
+/* #boards {
     background-color: green;
+} */
+.empty-space{
+    height: 50px;
 }
