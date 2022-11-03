@@ -26,17 +26,18 @@ def index():
 
 
 
-# @app.route("/api/boards/<int:border_id>/<int:element_id>/<string:column_name>")
-# @json_response
-# def change_status_element(border_id: int,element_id: int, column_name:str):
-#     column = help_function.chenge_name_to_int(column_name)
-#     queries.update_status_element(element_id,border_id,column)
-    
+@app.route("/api/boards/<int:board_id>/<int:card_id>/<string:status>", methods=['PUT'])
+@json_response
+def change_status_element(board_id: int, card_id: int, status:str):
+    column = help_function.chenge_name_to_int(status)
+    queries.update_status_element(card_id, board_id, column)
 
-# @app.route("/api/text/boards/<int:border_id>/<int:element_id>/<string:text>")
-# @json_response
-# def change_text_element(border_id: int,element_id: int, text:str):
-#     queries.update_text_element(element_id,border_id,text)
+
+@app.route("/api/boards/<int:board_id>/<int:card_id>/title/<string:title>", methods=['PUT'])
+@json_response
+def change_text_element(board_id: int, card_id: int, title: str):
+    queries.update_text_element(board_id, card_id, title)
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def user_register():

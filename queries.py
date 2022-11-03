@@ -43,6 +43,7 @@ def insert_new_user(user_name, password, email):
         INSERT INTO users (user_name, password, e_mail) VALUES (%(user_name)s, %(password)s, %(email)s)
     """, {'user_name': user_name, 'password': password, 'email': email})
 
+
 def check_if_user_name_is_free(user_name):
     result = data_manager.execute_select("""
         SELECT 1 as result
@@ -50,6 +51,7 @@ def check_if_user_name_is_free(user_name):
         WHERE users.user_name = %(user_name)s
     """, {'user_name': user_name})
     return result
+
 
 def chech_if_email_is_free(email):
     result = data_manager.execute_select("""
@@ -59,6 +61,7 @@ def chech_if_email_is_free(email):
     """, {'email': email})
     return result
 
+
 def get_user_password(user_name):
     result = data_manager.execute_select("""
             SELECT password
@@ -66,6 +69,8 @@ def get_user_password(user_name):
             WHERE users.user_name = %(user_name)s
         """, {'user_name': user_name}, fetchall= False)
     return result
+
+
 def get_user_id(user_name):
     result = data_manager.execute_select("""
             SELECT users.id
@@ -83,6 +88,7 @@ def create_board(board_title):
         """
         , {"board_title": board_title})
 
+
 def update_status_element(element_id,border_id,status):
     data_manager.execute_insert(
         """
@@ -93,22 +99,24 @@ def update_status_element(element_id,border_id,status):
         """
         , {"status": status,'element_id':element_id,'border_id':border_id})
 
-def Add_card_to_board(board_id):
-    data_manager.execute_insert(
-        """
-        INSERT INTO cards (board_id,status_id,title,card_order)
-        VALUES (%(board_id)s,1,'',0)
 
-        
-        """
-        , {"board_id": board_id})
+# def Add_card_to_board(board_id):
+#     data_manager.execute_insert(
+#         """
+#         INSERT INTO cards (board_id,status_id,title,card_order)
+#         VALUES (%(board_id)s,1,'',0)
+#
+#
+#         """
+#         , {"board_id": board_id})
 
-def update_text_element(element_id,border_id,text):
+
+def update_text_element(board_id, card_id, title):
     data_manager.execute_insert(
             """
         UPDATE cards
-        SET title = %(text)s
-        WHERE id = %(element_id)s AND board_id = %(border_id)s ;
+        SET title = %(title)s
+        WHERE id = %(card_id)s AND board_id = %(board_id)s ;
         
         """
-        , {"text": text,'element_id':element_id,'border_id':border_id})
+        , {"title": title, 'card_id': card_id, 'board_id': board_id})

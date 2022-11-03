@@ -2,7 +2,7 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
-let addBoardButton = document.getElementById('add-board-btn')
+
 
 
 
@@ -14,13 +14,27 @@ export let boardsManager = {
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
             domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
+                `.accordion-button[data-board-id="${board.id}"]`,
                 "click",
                 showHideButtonHandler
             );
         }
     },
+    createNewBoard: function () {
+        domManager.addEventListener(
+                `#add_board`,
+                "click",
+                 createBoard
+            );
+    }
 };
+
+function createBoard(){
+    let newBoard
+}
+
+
+
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;

@@ -17,17 +17,17 @@ export let dataHandler = {
     getCard: async function (cardId) {
         return await apiGet(`/api/boards/cards/${cardId}`);
     },
-    changeCardStatus: async function(cardId,status){
-        await apiPost(`/api/boards/cards/${cardId}/${status}`)
+    changeCardStatus: async function(boardId, cardId, status){
+        await apiPut(`/api/boards/${boardId}/${cardId}/${status}`)
     },
     changeCardOrder: async function(cardId,cardOrder){
         await apiPost(`/api/boards/cards/${cardId}/${cardOrder}`)
     },
-    changeCardTitle: async function(cardId,title){
-        await apiPost(`/api/boards/cards/${cardId}/${title}`)
+    changeCardTitle: async function(boardId, cardId, title){
+        await apiPut(`/api/boards/${boardId}/${cardId}/title/${title}`)
     },
     createNewBoard: async function (boardTitle) {
-        await apiPost(`/api/boards/${boardTitle}`)///?????????????????????????
+        await apiPost(`/api/boards/${boardTitle}`)
     },
     createNewCard: async function (cardTitle ,boardId ,statusId) {
         await apiPost(`/api/boards/${boardId}/cards/`,{'cardTitle':cardTitle,'statusId':statusId})

@@ -21,8 +21,8 @@ export function htmlFactory(template) {
 }
 
 
-function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+function cardBuilder(card, boardId) {
+    return `<div class="card" data-card-id="${card.id}" data-board-id=${boardId}><input class="col-sm-12" type="text" value="${card.title}" disabled></div>`;
 }
 
 
@@ -47,10 +47,10 @@ function boardBuilder(board) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="card-slot NEW"></td>
-                                <td class="card-slot IP"></td>
-                                <td class="card-slot T"></td>
-                                <td class="card-slot DONE"></td>
+                                <td class="card-slot NEW" data-board-id=${board.id}></td>
+                                <td class="card-slot IP" data-board-id=${board.id}></td>
+                                <td class="card-slot T" data-board-id=${board.id}></td>
+                                <td class="card-slot DONE" data-board-id=${board.id}></td>
                             </tr>
                     </table>
       </div>

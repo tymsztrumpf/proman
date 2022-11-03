@@ -27,6 +27,7 @@ a{
     background-color: #2F3336;
     color: aliceblue;
     border-radius: 10px;
+    text-align: right;
 }
 textarea{
     min-height: 60px;
@@ -50,5 +51,7 @@ input{
     margin: 30px;
 }
 #add_board{
-    text-align: right;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
 }
