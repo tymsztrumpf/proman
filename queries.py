@@ -64,3 +64,11 @@ def chech_if_email_is_free(email):
         WHERE users.e_mail = %(email)s
     """, {'email': email})
     return result
+
+def get_user_password(user_name):
+    result = data_manager.execute_select("""
+            SELECT password
+            FROM users
+            WHERE users.user_name = %(user_name)s
+        """, {'user_name': user_name}, fetchall= False)
+    return result
