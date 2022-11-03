@@ -5,8 +5,7 @@ from util import json_response
 import mimetypes
 import queries
 import help_function
-import bcrypt
-from flask_session import Session
+
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
