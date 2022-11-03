@@ -36,7 +36,23 @@ function boardBuilder(board) {
     </h2>
     <div id="panelsStayOpen-collapseOne${board.id}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
       <div class="accordion-body bg bg-dark">
-         
+      <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th class="text-light col-sm-3" scope="col">NEW</th>
+                                <th class="text-light col-sm-3" scope="col">IN PROGRESS</th>
+                                <th class="text-light col-sm-3" scope="col">TESTING</th>
+                                <th class="text-light col-sm-3" scope="col">DONE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="card-slot NEW"></td>
+                                <td class="card-slot IP"></td>
+                                <td class="card-slot T"></td>
+                                <td class="card-slot DONE"></td>
+                            </tr>
+                    </table>
       </div>
     </div>
   </div>

@@ -37,8 +37,7 @@ def get_cards_for_board(board_id):
         , {"board_id": board_id})
     return matching_cards
 
-def create_board(board_title):
-    data_manager.execute_insert(
+
 def insert_new_user(user_name, password, email):
     data_manager.execute_insert("""
         INSERT INTO users (user_name, password, e_mail) VALUES (%(user_name)s, %(password)s, %(email)s)
@@ -76,14 +75,13 @@ def get_user_id(user_name):
     return result
 
 
-def Add_board(board_title):
-    matching_cards = data_manager.execute_select(
+def create_board(board_title):
+    data_manager.execute_insert(
         """
         INSERT INTO boards (title)
         VALUES (%(board_title)s)
         """
         , {"board_title": board_title})
-
 
 def update_status_element(element_id,border_id,status):
     data_manager.execute_insert(

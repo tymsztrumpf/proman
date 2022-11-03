@@ -59,6 +59,7 @@ def execute_select(statement, variables=None, fetchall=True):
             result_set = cursor.fetchall() if fetchall else cursor.fetchone()
     return result_set
 
+
 def execute_insert(statement, variables=None):
     """
     Execute SELECT statement optionally parameterized.
