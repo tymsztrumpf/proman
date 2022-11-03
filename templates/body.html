@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>ProMan</title>
+        <title>ProMan </title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
@@ -17,29 +17,37 @@
     <body class="bg bg-dark">
 
     {% include 'navbar.html' %}
-    <div class="empty-space">
-        <button type="submit" id="add_board">add_board</button>
-    </div>
-    <div class="boards"></div>
-        {%for board in boards%}
-        <form action="/Show_board/{{board.title}}/{{board.id}}" >
-            <div class="board">
-                <div class="accordion " id="accordionFlushExample">
-                    <div class=" accordion-item">
-                        <h2 class="accordion-header" id="flush-headingOne">
-                            <button class=" accordion-button collapsed bg  bg-dark text-light" type="submit" data-bs-toggle="collapse"
-                                data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                {{board.title}}
-                            </button>
-                        </h2>    
-                    </div>      
-                </div> 
-            </div>
-        </form>
-        {%endfor%}
-    </div>
+    <div class="empty-space"></div>
+
+            <h2 >
+                    {{name_board}} 
+            </h2>
+
+                    <button id="add_button">Add Note</button>
+                    <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th class="text-light col-sm-3" scope="col">NEW</th>
+                                <th class="text-light col-sm-3" scope="col">IN PROGRESS</th>
+                                <th class="text-light col-sm-3" scope="col">TESTING</th>
+                                <th class="text-light col-sm-3" scope="col">DONE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr >
+                                <td class="card-slot NEW"></td>
+                                <td class="card-slot IP"></td>
+                                <td class="card-slot T"></td>
+                                <td class="card-slot DONE"></td>
+                            </tr>
+                            
+    
+                    </table>
+
     </body>
+    <div id="board_id">{{board_id}}</div>
 
+<script src="{{ url_for('static', filename='js/controller/control_drag.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/controller/take_elements.js') }}" defer></script>
 
-<script src="static\js\controller\create_boards.js"></script>
 </html>
