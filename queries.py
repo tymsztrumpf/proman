@@ -72,3 +72,11 @@ def get_user_password(user_name):
             WHERE users.user_name = %(user_name)s
         """, {'user_name': user_name}, fetchall= False)
     return result
+def get_user_id(user_name):
+    result = data_manager.execute_select("""
+            SELECT users.id
+            FROM users
+            WHERE users.user_name = %(user_name)s
+        """, {'user_name': user_name}, fetchall= False)
+    return result
+
