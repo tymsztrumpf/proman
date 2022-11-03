@@ -20,6 +20,7 @@ SET default_with_oids = false;
 DROP TABLE IF EXISTS statuses CASCADE;
 DROP TABLE IF EXISTS boards CASCADE;
 DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS users;
 
 ---
 --- create tables
@@ -41,6 +42,13 @@ CREATE TABLE cards (
     status_id   INTEGER             NOT NULL,
     title       VARCHAR (200)       NOT NULL,
     card_order  INTEGER             NOT NULL
+);
+
+CREATE TABLE users (
+    id          SERIAL PRIMARY KEY  NOT NULL,
+    user_name   text                NOT NULL,
+    password    text                NOT NULL,
+    e_mail      text                NOT NULL
 );
 
 ---
@@ -67,6 +75,11 @@ INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 2, 'in progress card', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 3, 'planning', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 2);
+
+
+INSERT INTO users (user_name, password, e_mail) VALUES ('admin', 'admin1', 'admin@wp.pl');
+
+
 
 ---
 --- add constraints
