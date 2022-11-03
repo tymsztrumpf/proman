@@ -15,4 +15,7 @@ export let domManager = {
             console.error("could not find such html element: " + parentIdentifier);
         }
     },
+    initialize() {
+        this.addEventListener('button#new-board-btn', 'onclick', () => console.log('test'));
+    }
 };

@@ -3,25 +3,34 @@ export let dataHandler = {
         return await apiGet("/api/boards");
     },
     getBoard: async function (boardId) {
-        // the board is retrieved and then the callback function is called with the board
+        return await apiGet(`/api/boards/${boardId}`)
     },
     getStatuses: async function () {
-        // the statuses are retrieved and then the callback function is called with the statuses
+        return await apiGet(`/api/statuses`)
     },
     getStatus: async function (statusId) {
-        // the status is retrieved and then the callback function is called with the status
+        return await apiGet(`/api/statuses/${statusId}`)
     },
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);
     },
     getCard: async function (cardId) {
-        // the card is retrieved and then the callback function is called with the card
+        return await apiGet(`/api/boards/cards/${cardId}`);
+    },
+    changeCardStatus: async function(boardId, cardId, status){
+        await apiPut(`/api/boards/${boardId}/${cardId}/${status}`)
+    },
+    changeCardOrder: async function(cardId,cardOrder){
+        await apiPost(`/api/boards/cards/${cardId}/${cardOrder}`)
+    },
+    changeCardTitle: async function(boardId, cardId, title){
+        await apiPut(`/api/boards/${boardId}/${cardId}/title/${title}`)
     },
     createNewBoard: async function (boardTitle) {
-        // creates new board, saves it and calls the callback function with its data
+        return await apiGet(`/api/boards/${boardTitle}`)
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
-        // creates new card, saves it and calls the callback function with its data
+        return await apiGet(`api/boards/${boardId}`,{'cardTitle':cardTitle, 'statusId':statusId} )
     },
 };
 
@@ -35,13 +44,39 @@ async function apiGet(url) {
 }
 
 async function apiPost(url, payload) {
+    let response = await fetch(url, {
+        method: 'POST',
+        'headers': {'Content-Type': 'application/json'},
+        'body': JSON.stringify(payload)
+    });
+    if (response.ok) {
+        return await response.json()
+    };
 }
 
 async function apiDelete(url) {
+    let response = await fetch(url, {
+        method: 'DELETE',
+    });
+    if (response.ok) {
+        return await response.json()
+    };
 }
 
 async function apiPut(url) {
+    let response = await fetch(url, {
+        method: 'PUT',
+    });
+    if (response.ok) {
+        return await response.json()
+    };
 }
 
 async function apiPatch(url) {
+    let response = await fetch(url, {
+        method: 'PATCH',
+    });
+    if (response.ok) {
+        return await response.json()
+    };
 }
