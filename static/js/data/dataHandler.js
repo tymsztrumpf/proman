@@ -49,9 +49,7 @@ async function apiPost(url, payload) {
         "headers": {"Content-Type": "application/json"},
         "body": JSON.stringify(payload)
     });
-    if (response.ok) {
-        return await response.json();
-    }
+    if (response.ok) return await response.json();
 }
 
 async function apiDelete(url) {
