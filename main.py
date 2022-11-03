@@ -53,6 +53,7 @@ def user_login():
         user_name = request.form['username']
         password = request.form['password'].encode(encoding='UTF-8')
         if queries.check_if_user_name_is_free(user_name) != []:
+            print(queries.check_if_user_name_is_free(user_name))
             user_id = queries.get_user_id(user_name)
             user_id = user_id['id']
             db_password = queries.get_user_password(user_name)
@@ -61,7 +62,14 @@ def user_login():
                 session['username'] = user_name
                 session['id'] = user_id
                 print(session)
-        return redirect(url_for('index', session= session))
+                return redirect(url_for('index', session=session))
+            else:
+                message = 'Wrong password'
+                return render_template('login.html', message= message)
+        else:
+            message_login = 'Wrong login'
+            return render_template('login.html', message= message_login)
+
 
 
 @app.route('/logout')

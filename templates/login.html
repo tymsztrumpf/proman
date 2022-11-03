@@ -31,6 +31,11 @@
 
                         <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign In</p>
 
+                          {% if message %}
+                        <p class="text-center h5 fw-bold mb-5 mx-1 mx-md-4 mt-4">{{ message }}</p>
+                          {% endif %}
+
+
                         <form class="mx-1 mx-md-4" action="{{ url_for('user_login') }}"method="post">
 
                           <div class="d-flex flex-row align-items-center mb-4">
@@ -57,6 +62,7 @@
                           <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                             <button type="submit" class="btn btn-primary btn-lg">Login</button>
                           </div>
+
 
                         </form>
 
