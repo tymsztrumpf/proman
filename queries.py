@@ -19,11 +19,6 @@ def get_card_status(status_id):
 
 
 def get_boards():
-    """
-    Gather all boards
-    :return:
-    """
-
     return data_manager.execute_select(
         """
         SELECT * FROM boards
@@ -41,6 +36,7 @@ def get_cards_for_board(board_id):
         """
         , {"board_id": board_id})
     return matching_cards
+
 
 def insert_new_user(user_name, password, email):
     data_manager.execute_insert("""
@@ -79,16 +75,13 @@ def get_user_id(user_name):
     return result
 
 
-def Add_board(board_title):
-    matching_cards = data_manager.execute_select(
+def create_board(board_title):
+    data_manager.execute_insert(
         """
         INSERT INTO boards (title)
         VALUES (%(board_title)s)
-        RETURNING id;
-        
         """
         , {"board_title": board_title})
-    return matching_cards
 
 def update_status_element(element_id,border_id,status):
     data_manager.execute_insert(
@@ -100,7 +93,7 @@ def update_status_element(element_id,border_id,status):
         """
         , {"status": status,'element_id':element_id,'border_id':border_id})
 
-def Add_element(board_id):
+def Add_card_to_board(board_id):
     data_manager.execute_insert(
         """
         INSERT INTO cards (board_id,status_id,title,card_order)

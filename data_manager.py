@@ -3,6 +3,7 @@ import psycopg2
 import psycopg2.extras
 
 
+
 def establish_connection(connection_data=None):
     """
     Create a database connection based on the :connection_data: parameter
@@ -58,7 +59,16 @@ def execute_select(statement, variables=None, fetchall=True):
             result_set = cursor.fetchall() if fetchall else cursor.fetchone()
     return result_set
 
-def execute_insert(statement, variables):
+
+def execute_insert(statement, variables=None):
+    """
+    Execute SELECT statement optionally parameterized.
+    Use fetchall=False to get back one value (fetchone)
+
+    Example:
+    > execute_select('SELECT %(title)s; FROM shows', variables={'title': 'Codecool'})
+    statement: SELECT statement
+    variables:  optional parameter dict, optional parameter fetchall"""
     with establish_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             cursor.execute(statement, variables)

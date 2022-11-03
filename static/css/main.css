@@ -11,9 +11,7 @@ a{
     text-decoration: none;
     color: rgb(0, 86, 152);
 }
-/* #boards {
-    background-color: green;
-} */
+
 .empty-space{
     background-color: rgb(0, 65, 135);
     height: 50px;
@@ -47,4 +45,10 @@ input:disabled{
 input{
     height: 60px;
     width: 410px;
+}
+.accordion{
+    margin: 30px;
+}
+#add_board{
+    text-align: right;
 }
