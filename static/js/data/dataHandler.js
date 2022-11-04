@@ -14,9 +14,6 @@ export let dataHandler = {
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);
     },
-    getCard: async function (cardId) {
-        return await apiGet(`/api/boards/cards/${cardId}`);
-    },
     changeCardStatus: async function(boardId, cardId, status){
         await apiPut(`/api/boards/${boardId}/${cardId}/${status}`)
     },
@@ -29,8 +26,8 @@ export let dataHandler = {
     createNewBoard: async function (boardTitle) {
         await apiPost(`/api/boards/${boardTitle}`)
     },
-    createNewCard: async function (cardTitle ,boardId ,statusId) {
-        await apiPost(`/api/boards/${boardId}/cards/`,{'cardTitle':cardTitle,'statusId':statusId})
+    createNewCard: async function (boardId ) {
+        return await apiPost(`/api/boards/${boardId}/newcard`)
     },
 };
 
@@ -49,7 +46,9 @@ async function apiPost(url, payload) {
         "headers": {"Content-Type": "application/json"},
         "body": JSON.stringify(payload)
     });
-    if (response.ok) return await response.json();
+    if (response.ok){
+        return await response.json(); 
+    } 
 }
 
 async function apiDelete(url) {

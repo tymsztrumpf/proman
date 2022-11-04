@@ -24,13 +24,25 @@ export let boardsManager = {
         domManager.addEventListener(
                 `#add_board`,
                 "click",
-                 createBoard
+                createSchema
             );
     }
 };
 
-function createBoard(){
-    let newBoard
+function createSchema(){
+    const content = htmlFactory(htmlTemplates.NewboardSchema)
+    domManager.addChild("#NewBoard", content);
+    domManager.addEventListener(
+        `.SendBoard`,
+        "click",
+        createBoardInSQL
+    );
+
+}
+function createBoardInSQL(){
+    let title = document.querySelector('.title_Board').value
+    dataHandler.createNewBoard(title)
+    location.reload();
 }
 
 

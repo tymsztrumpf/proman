@@ -1,12 +1,11 @@
 from flask import Flask, render_template, url_for, request, redirect, session
 from dotenv import load_dotenv
-import data_manager
 from util import json_response
 import mimetypes
 import queries
 import help_function
 import bcrypt
-from flask_session import Session
+
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
@@ -19,10 +18,10 @@ def index():
     boards = queries.get_boards()
     return render_template('index.html',boards = boards)
 
-# @app.route("/api/boards/<string:Board_Title>", methods=['POST'])
-# @json_response
-# def create_board(Board_Title):
-#     queries.create_board(Board_Title)
+@app.route("/api/boards/<string:Board_Title>", methods=['POST'])
+@json_response
+def create_board(Board_Title):
+    queries.create_board(Board_Title)
 
 
 
@@ -96,10 +95,10 @@ def user_logout():
     session.clear()
     return redirect(url_for('index'))
 
-# @app.route("/api/add/card/<int:border_id>")
-# @json_response
-# def add_element(border_id: int,):
-#     queries.Add_card_to_board(border_id)
+@app.route("/api/boards/<int:board_id>/newcard", methods= ["POST"])
+@json_response
+def add_card(board_id: int,):
+    return queries.Add_card_to_board(board_id)
 
 @app.route("/api/boards")
 @json_response
@@ -110,7 +109,6 @@ def get_boards():
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):
-
     return queries.get_cards_for_board(board_id)
 
 

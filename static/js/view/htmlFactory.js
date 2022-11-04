@@ -1,11 +1,13 @@
 export const htmlTemplates = {
     board: 1,
-    card: 2
+    card: 2,
+    NewboardSchema: 3
 }
 
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
-    [htmlTemplates.card]: cardBuilder
+    [htmlTemplates.card]: cardBuilder,
+    [htmlTemplates.NewboardSchema]: NewBoardSchema
 };
 
 export function htmlFactory(template) {
@@ -37,6 +39,7 @@ function boardBuilder(board) {
     <div id="panelsStayOpen-collapseOne${board.id}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
       <div class="accordion-body bg bg-dark">
       <table class="table table-bordered ">
+      <button data-board-id=${board.id} class="CreateCard">ADD Card</button>
                         <thead>
                             <tr>
                                 <th class="text-light col-sm-3" scope="col">NEW</th>
@@ -57,3 +60,13 @@ function boardBuilder(board) {
     </div>
   </div>
 </div>`}
+
+function NewBoardSchema(Schema) {
+    return `
+    <div class="accordion" >
+        <div class="accordion-item">
+            <div class="accordion-button text-white bg bg-dark">
+                <input class="title_Board" type="text"> <button class="SendBoard">+</button>  
+            </div>
+        </div>
+    </div>`}

@@ -100,17 +100,26 @@ def update_status_element(element_id,border_id,status):
         , {"status": status,'element_id':element_id,'border_id':border_id})
 
 
-# def Add_card_to_board(board_id):
-#     data_manager.execute_insert(
-#         """
-#         INSERT INTO cards (board_id,status_id,title,card_order)
-#         VALUES (%(board_id)s,1,'',0)
-#
-#
-#         """
-#         , {"board_id": board_id})
+def Add_card_to_board(board_id):
+    result = data_manager.execute_select(
+        """
+        INSERT INTO cards (board_id,status_id,title,card_order)
+        VALUES (%(board_id)s,1,'',0)
+        RETURNING id ,title
+        """
+        , {"board_id": board_id})
+    return result
 
-
+def get_new_card(board_id):
+    result = data_manager.execute_select(
+        """
+       SELECT * FROM cards
+        WHERE cards.board_id = %(board_id)s
+        ORDER By id DESC        
+        limit 1
+        """
+        , {"board_id": board_id})
+    return result
 def update_text_element(board_id, card_id, title):
     data_manager.execute_insert(
             """
