@@ -27,6 +27,7 @@ a{
     background-color: #2F3336;
     color: aliceblue;
     border-radius: 10px;
+    text-align: right;
 }
 textarea{
     min-height: 60px;
@@ -44,11 +45,19 @@ input:disabled{
 }
 input{
     height: 60px;
-    width: 410px;
+    background-color: gray;
+    color: white;
 }
 .accordion{
     margin: 30px;
 }
 #add_board{
-    text-align: right;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.title_Board{
+    height: 30px;
+    width: 100px;
+
 }
