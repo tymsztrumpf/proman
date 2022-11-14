@@ -1,7 +1,7 @@
-import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
-import {domManager} from "../view/domManager.js";
-import {cardsManager} from "./cardsManager.js";
+import { dataHandler } from "../data/dataHandler.js";
+import { domManager } from "../view/domManager.js";
+import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
+import { cardsManager } from "./cardsManager.js";
 
 
 
@@ -22,14 +22,14 @@ export let boardsManager = {
     },
     createNewBoard: function () {
         domManager.addEventListener(
-                `#add_board`,
-                "click",
-                createSchema
-            );
+            `#add_board`,
+            "click",
+            createSchema
+        );
     }
 };
 
-function createSchema(){
+function createSchema() {
     const content = htmlFactory(htmlTemplates.NewboardSchema)
     domManager.addChild("#NewBoard", content);
     domManager.addEventListener(
@@ -39,12 +39,20 @@ function createSchema(){
     );
 
 }
-function createBoardInSQL(){
-    let title = document.querySelector('.title_Board').value
-    dataHandler.createNewBoard(title)
-    location.reload();
-}
 
+async function createBoardInSQL() {
+    let title = document.querySelector('.title_Board').value
+    await dataHandler.createNewBoard(title)
+    clearBoards();
+    deleteSchemaAdd();
+    boardsManager.loadBoards()
+}
+function clearBoards() {
+    document.querySelector('#root').innerHTML = '';
+}
+function deleteSchemaAdd() {
+    document.querySelector('#NewBoard').innerHTML = '';
+}
 
 
 

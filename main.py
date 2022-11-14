@@ -1,11 +1,12 @@
-from flask import Flask, render_template, url_for, request, redirect, session
-from dotenv import load_dotenv
-from util import json_response
 import mimetypes
-import queries
-import help_function
-import bcrypt
 
+import bcrypt
+from dotenv import load_dotenv
+from flask import Flask, redirect, render_template, request, session, url_for
+
+import help_function
+import queries
+from util import json_response
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
@@ -15,13 +16,13 @@ app.secret_key = 'somesecretkeythatonlyishouldknow'
 
 @app.route("/")
 def index():
-    boards = queries.get_boards()
-    return render_template('index.html',boards = boards)
+    return render_template('index.html')
 
 @app.route("/api/boards/<string:Board_Title>", methods=['POST'])
 @json_response
 def create_board(Board_Title):
     queries.create_board(Board_Title)
+    
 
 
 

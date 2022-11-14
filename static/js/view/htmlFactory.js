@@ -18,7 +18,7 @@ export function htmlFactory(template) {
     console.error("Undefined template: " + template);
 
     return () => {
-        return "";
+        return "";  
     };
 }
 
@@ -61,7 +61,7 @@ function boardBuilder(board) {
   </div>
 </div>`}
 
-function NewBoardSchema(Schema) {
+function NewBoardSchema() {
     return `
     <div class="accordion" >
         <div class="accordion-item">

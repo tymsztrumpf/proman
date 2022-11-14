@@ -1,5 +1,5 @@
 import {dataHandler} from "../data/dataHandler.js";
-
+const secondClass = 1
 
 const ui = {
     mixedCardsContainer: null,
@@ -42,9 +42,7 @@ function initDraggable(draggable) {
 }
 
 function initDropzone(dropzone) {
-    dropzone.addEventListener("dragenter", handleDragEnter);
     dropzone.addEventListener("dragover", handleDragOver);
-    dropzone.addEventListener("dragleave", handleDragLeave);
     dropzone.addEventListener("drop", handleDrop);
 }
 
@@ -60,17 +58,9 @@ function handleDragOver(e) {
     e.preventDefault();
 }
 
-function handleDragEnter(e) {
-
-}
-
-function handleDragLeave(e) {
-
-}
 
 
 function handleDrop(e) {
-    const secondClass = 1
     const dropzone = e.currentTarget;
     let cardId = game.dragged.getAttribute('data-card-id');
     let boardId = dropzone.getAttribute('data-board-id');
