@@ -1,4 +1,4 @@
-import { dataHandler } from "../data/dataHandler.js";
+import {dataHandler} from "../data/dataHandler.js";
 const secondClass = 1
 
 const ui = {
@@ -11,7 +11,7 @@ const game = {
 };
 
 export let dropManager = {
-    initDragAndDrop: async function () {
+    initDragAndDrop : async function () {
         initElements();
         initDragEvents();
     }
@@ -19,7 +19,7 @@ export let dropManager = {
 
 
 function initElements() {
-    ui.slots = document.querySelectorAll("td");
+    ui.slots =  document.querySelectorAll("td");
     ui.cards = document.querySelectorAll(".card")
 }
 
@@ -60,7 +60,6 @@ function handleDragOver(e) {
 
 
 
-
 function handleDrop(e) {
     const dropzone = e.currentTarget;
     let cardId = game.dragged.getAttribute('data-card-id');
@@ -69,12 +68,8 @@ function handleDrop(e) {
     let cardBoardId = game.dragged.getAttribute('data-board-id')
 
     e.preventDefault();
-    if (boardId == cardBoardId) dropzone.appendChild(game.dragged);
+    if(boardId == cardBoardId) dropzone.appendChild(game.dragged);
     dataHandler.changeCardStatus(boardId, cardId, columnName)
 
 }
 
-
-
-
-initDragAndDrop();
