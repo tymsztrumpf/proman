@@ -1,7 +1,7 @@
-import { dataHandler } from "../data/dataHandler.js";
-import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
-import { domManager } from "../view/domManager.js";
 import { dropManager } from "../controller/control_drag.js";
+import { dataHandler } from "../data/dataHandler.js";
+import { domManager } from "../view/domManager.js";
+import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
 
 export let cardsManager = {
   loadCards: async function (boardId) {
@@ -82,10 +82,8 @@ function changeCardTextOn(clickEvent) {
   clickEvent.currentTarget.firstChild.disabled = false;
 }
 function changeCardTextOff(clickEvent) {
-  let boardId = clickEvent.currentTarget.getAttribute("data-board-id");
-  let title = clickEvent.currentTarget.firstChild.value;
+  let cardTitle = clickEvent.currentTarget.firstChild.value;
   let cardId = clickEvent.currentTarget.getAttribute("data-card-id");
-
   clickEvent.currentTarget.firstChild.disabled = true;
-  dataHandler.changeCardTitle(boardId, cardId, title);
+  dataHandler.changeCardTitle(cardId, cardTitle);
 }

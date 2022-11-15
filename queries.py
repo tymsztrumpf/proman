@@ -12,8 +12,7 @@ def get_card_status(status_id):
         SELECT * FROM statuses s
         WHERE s.id = %(status_id)s
         ;
-        """
-        , {"status_id": status_id})
+        """, {"status_id": status_id})
 
     return status
 
@@ -33,8 +32,7 @@ def get_cards_for_board(board_id):
         SELECT * FROM cards
         WHERE cards.board_id = %(board_id)s
         ;
-        """
-        , {"board_id": board_id})
+        """, {"board_id": board_id})
     return matching_cards
 
 
@@ -67,7 +65,7 @@ def get_user_password(user_name):
             SELECT password
             FROM users
             WHERE users.user_name = %(user_name)s
-        """, {'user_name': user_name}, fetchall= False)
+        """, {'user_name': user_name}, fetchall=False)
     return result
 
 
@@ -76,7 +74,7 @@ def get_user_id(user_name):
             SELECT users.id
             FROM users
             WHERE users.user_name = %(user_name)s
-        """, {'user_name': user_name}, fetchall= False)
+        """, {'user_name': user_name}, fetchall=False)
     return result
 
 
@@ -85,19 +83,17 @@ def create_board(board_title):
         """
         INSERT INTO boards (title)
         VALUES (%(board_title)s)
-        """
-        , {"board_title": board_title})
+        """, {"board_title": board_title})
 
 
-def update_status_element(element_id,border_id,status):
+def update_status_card(element_id, status):
     data_manager.execute_insert(
         """
         UPDATE cards
         SET status_id = %(status)s
-        WHERE id = %(element_id)s AND board_id = %(border_id)s ;
+        WHERE id = %(element_id)s  ;
         
-        """
-        , {"status": status,'element_id':element_id,'border_id':border_id})
+        """, {"status": status, 'element_id': element_id})
 
 
 def Add_card_to_board(board_id):
@@ -106,16 +102,25 @@ def Add_card_to_board(board_id):
         INSERT INTO cards (board_id,status_id,title,card_order)
         VALUES (%(board_id)s,1,'',0)
         RETURNING id ,title
-        """
-        , {"board_id": board_id})
+        """, {"board_id": board_id})
     return result
 
-def update_text_element(board_id, card_id, title):
+
+def update_text_element(card_id, title):
     data_manager.execute_insert(
-            """
+        """
         UPDATE cards
         SET title = %(title)s
-        WHERE id = %(card_id)s AND board_id = %(board_id)s ;
+        WHERE id = %(card_id)s  ;
         
+        """, {"title": title, 'card_id': card_id})
+
+
+def update_board_title(board_id, title):
+    data_manager.execute_insert(
         """
-        , {"title": title, 'card_id': card_id, 'board_id': board_id})
+        UPDATE boards
+        SET title = %(title)s
+        WHERE id = %(board_id)s ;
+        
+        """, {"title": title, 'board_id': board_id})

@@ -18,26 +18,6 @@ app.secret_key = 'somesecretkeythatonlyishouldknow'
 def index():
     return render_template('index.html')
 
-@app.route("/api/boards/<string:Board_Title>", methods=['POST'])
-@json_response
-def create_board(Board_Title):
-    queries.create_board(Board_Title)
-    
-
-
-
-@app.route("/api/boards/<int:board_id>/<int:card_id>/<string:status>", methods=['PUT'])
-@json_response
-def change_status_element(board_id: int, card_id: int, status:str):
-    column = help_function.chenge_name_to_int(status)
-    queries.update_status_element(card_id, board_id, column)
-
-
-@app.route("/api/boards/<int:board_id>/<int:card_id>/title/<string:title>", methods=['PUT'])
-@json_response
-def change_text_element(board_id: int, card_id: int, title: str):
-    queries.update_text_element(board_id, card_id, title)
-
 
 @app.route("/register", methods=['GET', 'POST'])
 def user_register():
@@ -56,7 +36,8 @@ def user_register():
             is_email_free = queries.chech_if_email_is_free(email)
             print(is_name_free)
             if is_name_free == [] and is_email_free == []:
-                queries.insert_new_user(user_name, hashed_pass.decode('UTF-8'), email)
+                queries.insert_new_user(
+                    user_name, hashed_pass.decode('UTF-8'), email)
             elif is_name_free != []:
                 print('login zajęty')
             else:
@@ -64,7 +45,7 @@ def user_register():
         return redirect(url_for('index'))
 
 
-@app.route('/login', methods= ["GET", "POST"])
+@app.route('/login', methods=["GET", "POST"])
 def user_login():
     if request.method == "GET":
         return render_template('login.html')
@@ -84,11 +65,10 @@ def user_login():
                 return redirect(url_for('index', session=session))
             else:
                 message = 'Wrong password'
-                return render_template('login.html', message= message)
+                return render_template('login.html', message=message)
         else:
             message_login = 'Wrong login'
-            return render_template('login.html', message= message_login)
-
+            return render_template('login.html', message=message_login)
 
 
 @app.route('/logout')
@@ -96,10 +76,6 @@ def user_logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route("/api/boards/<int:board_id>/newcard", methods= ["POST"])
-@json_response
-def add_card(board_id: int,):
-    return queries.Add_card_to_board(board_id)
 
 @app.route("/api/boards")
 @json_response
@@ -107,17 +83,54 @@ def get_boards():
     return queries.get_boards()
 
 
-@app.route("/api/boards/<int:board_id>/cards/")
+@app.route("/api/boards", methods=['POST'])
+@json_response
+def create_board():
+    board = request.json()
+    queries.create_board(board['title'])
+
+
+@app.route("/api/boards/<int:board_id>/title", methods=['PUT'])
+@json_response
+def change_board_title(board_id: int):
+    board = request.json
+    queries.update_board_title(board_id, board['title'])
+
+
+@app.route("/api/cards/<int:card_id>/status", methods=['PUT'])
+@json_response
+def change_status_card(card_id: int):
+    card = request.json
+    status = help_function.chenge_name_to_int(card['status'])
+    queries.update_status_card(card_id, status)
+
+
+# @app.route("/api/boards/<int:board_id>/<int:card_id>/title/<string:title>", methods=['PUT'])
+@app.route("/api/cards/<int:card_id>/title", methods=['PUT'])
+@json_response
+def change_text_card(card_id: int):
+    card = request.json
+    queries.update_text_element(card_id, card['title'])
+
+
+@app.route("/api/boards/<int:board_id>/cards")
 @json_response
 def get_cards_for_board(board_id: int):
     return queries.get_cards_for_board(board_id)
+
+
+@app.route("/api/boards/<int:board_id>/cards", methods=["POST"])
+@json_response
+def add_card(board_id: int,):
+    return queries.Add_card_to_board(board_id)
 
 
 def main():
 
     # Serving the favicon
     with app.app_context():
-        app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
+        app.add_url_rule(
+            '/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
 
 
 if __name__ == '__main__':

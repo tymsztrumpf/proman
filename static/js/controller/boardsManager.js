@@ -13,10 +13,11 @@ export let boardsManager = {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
+            addAcordingFunction(board);
             domManager.addEventListener(
                 `.accordion-button[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
+                "dblclick",
+                change_name
             );
         }
     },
@@ -28,6 +29,14 @@ export let boardsManager = {
         );
     }
 };
+
+function addAcordingFunction(board) {
+    domManager.addEventListener(
+        `.accordion-button[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+    );
+}
 
 function createSchema() {
     const content = htmlFactory(htmlTemplates.NewboardSchema)
@@ -59,4 +68,10 @@ function deleteSchemaAdd() {
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     cardsManager.loadCards(boardId);
+}
+function change_name(clickEvent) {
+    let title = prompt("Please enter board name", clickEvent.target.innerHTML)
+    let id = clickEvent.target.dataset.boardId
+    dataHandler.changeBoardName(id, title)
+    clickEvent.target.innerHTML = title;
 }
