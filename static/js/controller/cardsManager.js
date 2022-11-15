@@ -6,9 +6,9 @@ import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
 export let cardsManager = {
   loadCards: async function (boardId) {
     const cards = await dataHandler.getCardsByBoardId(boardId);
-    if (BoardElemetnsAreEmpty(boardId)) {
+    if (boardElemetnsAreEmpty(boardId)) {
       for (let card of cards) {
-        addCardToBoard(card, boardId);
+        addCardToColumn(card, boardId);
         dropManager.initDragAndDrop();
         add_text_change(card);
       }
@@ -19,19 +19,28 @@ export let cardsManager = {
       );
     }
   },
+  changeOrdercard(boardId){
+    let counter = 1;
+    let lastCardStatus = 0
+    document.querySelectorAll(`.card[data-board-id="${boardId}"]`).forEach(card => {
+      let cardId = card.dataset.cardId
+      if (lastCardStatus !== card.dataset.cardStatus){
+        lastCardStatus = card.dataset.cardStatus
+        counter = 1
+      }
+      else{
+        counter ++
+      }
+      console.log("cardid:",cardId,"counter:",counter)
+      dataHandler.changeCardOrder(cardId, counter)
+    })
+  }
 };
 
-function addCardToBoard(card, boardId) {
+async function addCardToColumn(card, boardId) {
   const cardBuilder = htmlFactory(htmlTemplates.card);
   const content = cardBuilder(card, boardId);
-  if (card["status_id"] === 1)
-    domManager.addChild(`.NEW[data-board-id="${boardId}"]`, content);
-  if (card["status_id"] === 2)
-    domManager.addChild(`.IP[data-board-id="${boardId}"]`, content);
-  if (card["status_id"] === 3)
-    domManager.addChild(`.T[data-board-id="${boardId}"]`, content);
-  if (card["status_id"] === 4)
-    domManager.addChild(`.DONE[data-board-id="${boardId}"]`, content);
+  domManager.addChild(`[data-column-status="${card.status_id}"][data-board-id="${boardId}"]`, content);
 }
 
 function add_text_change(card) {
@@ -48,16 +57,15 @@ function add_text_change(card) {
 }
 
 function takeBoardElements(boardId) {
-  return [
-    document.querySelector(`.NEW[data-board-id="${boardId}"]`).innerHTML,
-    document.querySelector(`.IP[data-board-id="${boardId}"]`).innerHTML,
-    document.querySelector(`.T[data-board-id="${boardId}"]`).innerHTML,
-    document.querySelector(`.T[data-board-id="${boardId}"]`).innerHTML,
-  ];
+  let elements = []
+  document.querySelectorAll(`.card-slot[data-board-id="${boardId}"]`).forEach(element => {
+    elements.push(element.innerHTML);
+  })
+  return elements
 }
-function BoardElemetnsAreEmpty(boardId) {
-  let BoardElements = takeBoardElements(boardId);
-  for (let Element of BoardElements) {
+function boardElemetnsAreEmpty(boardId) {
+  let boardElements = takeBoardElements(boardId);
+  for (let Element of boardElements) {
     if (Element != "") {
       return false;
     }
@@ -67,11 +75,14 @@ function BoardElemetnsAreEmpty(boardId) {
 
 function createCard(clickEvent) {
   const boardId = clickEvent.currentTarget.getAttribute("data-board-id");
-  dataHandler.createNewCard(boardId).then((json) => {
+  const cardStatus = document.querySelector('.card-slot[data-column-id="1"]').dataset.columnStatus
+  const cardCounter = document.querySelector('.card-slot[data-column-id="1"]').innerHTML.split('</div>').length
+  console.log(cardCounter)
+  dataHandler.createNewCard(boardId,cardStatus,cardCounter).then((json) => {
     json.forEach((element) => {
       const cardBuilder = htmlFactory(htmlTemplates.card);
       const content = cardBuilder(element, boardId);
-      domManager.addChild(`.NEW[data-board-id="${boardId}"]`, content);
+      domManager.addChild('.card-slot[data-column-id="1"]', content);
       add_text_change(element);
       dropManager.initDragAndDrop();
     });

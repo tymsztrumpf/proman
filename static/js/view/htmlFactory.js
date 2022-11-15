@@ -1,14 +1,19 @@
 export const htmlTemplates = {
     board: 1,
     card: 2,
-    NewboardSchema: 3
+    newBoardSchema: 3,
+    columnTitle: 4,
+    columnBody: 5
 }
 
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
     [htmlTemplates.card]: cardBuilder,
-    [htmlTemplates.NewboardSchema]: NewBoardSchema
-};
+    [htmlTemplates.newBoardSchema]: newBoardSchema,
+    [htmlTemplates.columnTitle]: columnTitleBuilder,
+    [htmlTemplates.columnBody]: columnBodyBuilder
+}
+;
 
 export function htmlFactory(template) {
     if (builderFunctions.hasOwnProperty(template)) {
@@ -24,15 +29,16 @@ export function htmlFactory(template) {
 
 
 function cardBuilder(card, boardId) {
-    return `<div class="card" data-card-id="${card.id}" data-board-id=${boardId}><input class="col-sm-12" type="text" value="${card.title}" disabled></div>`;
+    return `<div class="card" data-card-status="${card.status_id}" data-card-id="${card.id}" data-board-id=${boardId}><input class="col-sm-12" type="text" value="${card.title}" disabled></div>`;
 }
 
 
 function boardBuilder(board) {
+    // language=HTML
     return `<div class="accordion" id="accordionPanelsStayOpenExample">
   <div class="accordion-item">
     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-      <button data-board-id=${board.id} class="accordion-button text-white bg bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne${board.id}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+      <button data-board-status="0" data-board-id=${board.id} class="accordion-button text-white bg bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne${board.id}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
       ${board.title}
       </button>
     </h2>
@@ -41,19 +47,11 @@ function boardBuilder(board) {
       <table class="table table-bordered ">
       <button data-board-id=${board.id} class="CreateCard">ADD Card</button>
                         <thead>
-                            <tr>
-                                <th class="text-light col-sm-3" scope="col">NEW</th>
-                                <th class="text-light col-sm-3" scope="col">IN PROGRESS</th>
-                                <th class="text-light col-sm-3" scope="col">TESTING</th>
-                                <th class="text-light col-sm-3" scope="col">DONE</th>
+                            <tr id="column-head" data-board-id="${board.id}">
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="card-slot NEW" data-board-id=${board.id}></td>
-                                <td class="card-slot IP" data-board-id=${board.id}></td>
-                                <td class="card-slot T" data-board-id=${board.id}></td>
-                                <td class="card-slot DONE" data-board-id=${board.id}></td>
+                            <tr id="column-body" data-board-id="${board.id}">
                             </tr>
                     </table>
       </div>
@@ -61,7 +59,7 @@ function boardBuilder(board) {
   </div>
 </div>`}
 
-function NewBoardSchema() {
+function newBoardSchema() {
     return `
     <div class="accordion" >
         <div class="accordion-item">
@@ -70,3 +68,10 @@ function NewBoardSchema() {
             </div>
         </div>
     </div>`}
+
+function columnTitleBuilder(title, boardId) {
+    return `<th class="text-light col-sm-3 " data-board-id=${boardId} scope="col">${title.toUpperCase()}</th>`
+}
+function columnBodyBuilder(id,status,boardId) {
+    return `<td class="card-slot" data-column-id="${id}" data-column-status="${status}" data-board-id=${boardId}></td>`
+}

@@ -2,6 +2,13 @@ export let dataHandler = {
     getBoards: async function () {
         return await apiGet("/api/boards");
     },
+    getBoardStatuses: async function (boardId) {
+        return await apiGet(`/api/boards/${boardId}/statuses`);
+    },
+    getStatuses: async function (){
+        return await apiGet("/api/statuses");
+
+    },
     createNewBoard: async function (boardTitle) {
         await apiPost(`/api/boards`, { 'board_title': boardTitle })
     },
@@ -11,8 +18,8 @@ export let dataHandler = {
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards`);
     },
-    createNewCard: async function (boardId) {
-        return await apiPost(`/api/boards/${boardId}/cards`)
+    createNewCard: async function (boardId,cardStatus,cardCounter) {
+        return await apiPost(`/api/boards/${boardId}/cards`,{ 'status': cardStatus,'order':cardCounter })
     },
     changeCardStatus: async function (cardId, cardStatus) {
         await apiPut(`/api/cards/${cardId}/status`, { 'status': cardStatus })

@@ -77,6 +77,14 @@ def user_logout():
     return redirect(url_for('index'))
 
 
+@app.route('/api/statuses')
+@json_response
+def get_statuses():
+    statuses = {}
+    for status in queries.get_statuses():
+        statuses[status['id']] = status['title']
+    return statuses
+
 @app.route("/api/boards")
 @json_response
 def get_boards():
@@ -90,6 +98,12 @@ def create_board():
     queries.create_board(board['title'])
 
 
+@app.route("/api/boards/<int:boards_id>/statuses", methods=['GET'])
+@json_response
+def get_board_statuses(boards_id):
+    return queries.get_board_statuses(boards_id)
+
+
 @app.route("/api/boards/<int:board_id>/title", methods=['PUT'])
 @json_response
 def change_board_title(board_id: int):
@@ -101,11 +115,17 @@ def change_board_title(board_id: int):
 @json_response
 def change_status_card(card_id: int):
     card = request.json
-    status = help_function.chenge_name_to_int(card['status'])
-    queries.update_status_card(card_id, status)
+    print(card['status'])
+    queries.update_status_card(card_id, card['status'])
 
 
-# @app.route("/api/boards/<int:board_id>/<int:card_id>/title/<string:title>", methods=['PUT'])
+@app.route("/api/cards/<int:card_id>/order",methods=['PUT'])
+@json_response
+def change_order_card(card_id: int):
+    card = request.json
+    print("id:",card_id,"order",card['order'])
+    queries.update_order_card(card_id, card['order'])
+
 @app.route("/api/cards/<int:card_id>/title", methods=['PUT'])
 @json_response
 def change_text_card(card_id: int):
@@ -121,12 +141,12 @@ def get_cards_for_board(board_id: int):
 
 @app.route("/api/boards/<int:board_id>/cards", methods=["POST"])
 @json_response
-def add_card(board_id: int,):
-    return queries.Add_card_to_board(board_id)
+def add_card(board_id: int, ):
+    card = request.json
+    return queries.Add_card_to_board(board_id,card['status'],card['order'])
 
 
 def main():
-
     # Serving the favicon
     with app.app_context():
         app.add_url_rule(

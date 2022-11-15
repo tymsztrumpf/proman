@@ -30,7 +30,8 @@ def get_cards_for_board(board_id):
     matching_cards = data_manager.execute_select(
         """
         SELECT * FROM cards
-        WHERE cards.board_id = %(board_id)s
+        WHERE board_id = %(board_id)s
+        order by card_order
         ;
         """, {"board_id": board_id})
     return matching_cards
@@ -96,13 +97,13 @@ def update_status_card(element_id, status):
         """, {"status": status, 'element_id': element_id})
 
 
-def Add_card_to_board(board_id):
+def Add_card_to_board(board_id,status,order):
     result = data_manager.execute_select(
         """
         INSERT INTO cards (board_id,status_id,title,card_order)
-        VALUES (%(board_id)s,1,'',0)
+        VALUES (%(board_id)s,%(status)s,'',%(order)s)
         RETURNING id ,title
-        """, {"board_id": board_id})
+        """, {"board_id": board_id,'status':status,'order':order})
     return result
 
 
@@ -124,3 +125,18 @@ def update_board_title(board_id, title):
         WHERE id = %(board_id)s ;
         
         """, {"title": title, 'board_id': board_id})
+
+def get_board_statuses(board_id):
+    return data_manager.execute_select('''
+    select status_id as id,s.title from boards_statuses
+    inner join statuses as s on boards_statuses.status_id = s.id
+    where board_id = 1
+    order by status_id;
+''',{'board_id':board_id})
+
+def update_order_card(card_id,order):
+    data_manager.execute_insert('''    
+    UPDATE cards
+    SET card_order = %(order)s
+    WHERE id = %(card_id)s
+    ''',{'card_id':card_id, 'order':order})
