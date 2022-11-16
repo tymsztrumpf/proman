@@ -12,7 +12,7 @@ mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv()
 app.secret_key = 'somesecretkeythatonlyishouldknow'
-app.config['MY_PSQL_DB_URI'] = 'postgres://xqtuifjhpnbstj:a61c5eb44b6be7b5091e18fe2e15486cda506387bb6bdcd47cdbcde77e571de3@ec2-54-228-32-29.eu-west-1.compute.amazonaws.com:5432/damb931s02usj0'
+
 
 @app.route("/")
 def index():
