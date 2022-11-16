@@ -1,4 +1,5 @@
-import {dataHandler} from "../data/dataHandler.js";
+import { dataHandler } from "../data/dataHandler.js";
+import {cardsManager} from "./cardsManager.js";
 const secondClass = 1
 
 const ui = {
@@ -11,7 +12,7 @@ const game = {
 };
 
 export let dropManager = {
-    initDragAndDrop : async function () {
+    initDragAndDrop: async function () {
         initElements();
         initDragEvents();
     }
@@ -19,7 +20,7 @@ export let dropManager = {
 
 
 function initElements() {
-    ui.slots =  document.querySelectorAll("td");
+    ui.slots = document.querySelectorAll("td");
     ui.cards = document.querySelectorAll(".card")
 }
 
@@ -60,16 +61,22 @@ function handleDragOver(e) {
 
 
 
-function handleDrop(e) {
+async function handleDrop(e) {
     const dropzone = e.currentTarget;
     let cardId = game.dragged.getAttribute('data-card-id');
     let boardId = dropzone.getAttribute('data-board-id');
-    let columnName = dropzone.classList[secondClass]
+    let columnStatus = dropzone.getAttribute('data-column-status');
     let cardBoardId = game.dragged.getAttribute('data-board-id')
 
     e.preventDefault();
-    if(boardId == cardBoardId) dropzone.appendChild(game.dragged);
-    dataHandler.changeCardStatus(boardId, cardId, columnName)
+    if (boardId === cardBoardId) dropzone.appendChild(game.dragged);
+    {
+
+        game.dragged.setAttribute('data-card-status', columnStatus)
+        dataHandler.changeCardStatus(cardId, columnStatus)
+        cardsManager.changeOrdercard(boardId)
+    }
+
 
 }
 
