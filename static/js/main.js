@@ -6,4 +6,4 @@ function init() {
 }
 
 
-init();
+init()

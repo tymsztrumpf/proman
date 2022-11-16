@@ -128,10 +128,9 @@ def update_board_title(board_id, title):
 
 def get_board_statuses(board_id):
     return data_manager.execute_select('''
-    select status_id as id,s.title from boards_statuses
-    inner join statuses as s on boards_statuses.status_id = s.id
-    where board_id = 1
-    order by status_id;
+    select id,title from statuses
+    where board_id = %(board_id)s
+    order by id;
 ''',{'board_id':board_id})
 
 def update_order_card(card_id,order):
@@ -140,3 +139,11 @@ def update_order_card(card_id,order):
     SET card_order = %(order)s
     WHERE id = %(card_id)s
     ''',{'card_id':card_id, 'order':order})
+
+def create_column(board_id,column_title):
+    data_manager.execute_insert(
+        """
+        INSERT INTO statuses (board_id,title)
+        VALUES (%(board_id)s,%(column_title)s);
+        """,{'board_id':board_id, 'column_title':column_title}
+    )

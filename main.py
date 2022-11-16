@@ -136,6 +136,11 @@ def add_card(board_id: int, ):
     card = request.json
     return queries.Add_card_to_board(board_id,card['status'],card['order'])
 
+@app.route("/api/boards/<int:board_id>/columns",methods=["POST"])
+@json_response
+def create_column(board_id: int):
+    column = request.json
+    queries.create_column(board_id, column['title'])
 
 def main():
     # Serving the favicon

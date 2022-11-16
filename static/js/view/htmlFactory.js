@@ -46,6 +46,7 @@ function boardBuilder(board) {
       <div class="accordion-body bg bg-dark">
       <table class="table table-bordered ">
       <button data-board-id=${board.id} class="CreateCard">ADD Card</button>
+      <button data-board-id=${board.id} class="CreateColumn">ADD Column</button>
                         <thead>
                             <tr id="column-head" data-board-id="${board.id}">
                             </tr>
@@ -70,7 +71,7 @@ function newBoardSchema() {
     </div>`}
 
 function columnTitleBuilder(title, boardId) {
-    return `<th class="text-light col-sm-3 " data-board-id=${boardId} scope="col">${title.toUpperCase()}</th>`
+    return `<th class="text-light" data-board-id=${boardId} scope="col">${title.toUpperCase()}</th>`
 }
 function columnBodyBuilder(id,status,boardId) {
     return `<td class="card-slot" data-column-id="${id}" data-column-status="${status}" data-board-id=${boardId}></td>`

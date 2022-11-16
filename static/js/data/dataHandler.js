@@ -26,6 +26,10 @@ export let dataHandler = {
     changeCardTitle: async function (cardId, cardTitle) {
         await apiPut(`/api/cards/${cardId}/title`, { 'title': cardTitle })
     },
+    createColumn: async function (BoardId,columnTitle){
+        await apiPost(`/api/boards/${BoardId}/columns`,{'title': columnTitle})
+
+    }
 };
 
 async function apiGet(url) {

@@ -66,6 +66,9 @@ function deleteSchemaAdd() {
 
 
 function showHideButtonHandler(clickEvent) {
+    // domManager.addChild(`#column-body`, '');
+    // domManager.addChild(`#column-head`, '');
+    // setInterval(columnsManager.loadColumns(1),1000)
     const boardId = clickEvent.target.dataset.boardId;
     let status = clickEvent.target.dataset.boardStatus
     if (status === "0") {

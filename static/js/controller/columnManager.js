@@ -23,6 +23,15 @@ export let columnsManager = {
         })
         counter = 0
         cardsManager.loadCards(boardId);
-
+        domManager.addEventListener(
+            `.CreateColumn[data-board-id="${boardId}"]`,
+            "click",
+            createColumn)
     },
 };
+
+function createColumn (clickEvent)  {
+    const boardId = clickEvent.currentTarget.getAttribute("data-board-id");
+    let columnName = prompt("Please enter column name")
+    dataHandler.createColumn(boardId,columnName);
+}
