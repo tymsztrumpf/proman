@@ -19,22 +19,43 @@ export let cardsManager = {
             if (card['status_id'] === 4) domManager.addChild(`.DONE[data-board-id="${boardId}"]`, content);
             await dropManager.initDragAndDrop();
             // domManager.addChild(`.board[data-board-id="${boardId}"]`, content);
-            domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
-                "click",
-                changeCardTextOn
-            );
-            domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
-                "click",
-                changeCardTextOff
-            );
+            // domManager.addEventListener(
+            //     `.card[data-card-id="${card.id}"]`,
+            //     "click",
+            //     changeCardTextOn
+            // );
+            // domManager.addEventListener(
+            //     `.card[data-card-id="${card.id}"]`,
+            //     "click",
+            //     changeCardTextOff
+            // );
+
         }
     },
+    createNewCard: function () {
+        domManager.addEventListener(
+                `#new-card-btn`,
+                "click",
+                createCard
+        );
+    }
 };
 
-function deleteButtonHandler(clickEvent) {
+function createCard(clickEvent) {
+    console.log(clickEvent.target.dataset.id)
+    // const boardId = clickEvent.target.dataset.boardId;
+    // // const cardId = clickEvent.target.dataset.cardId;
+    // const board = dataHandler.createNewCard(boardId);
+    // const cardBuilder = htmlFactory(htmlTemplates.card);
+    // const content = cardBuilder(board)
+    // domManager.addChild("#root", content);
+
+
+
 }
+
+// function deleteButtonHandler(clickEvent) {
+// }
 
 function changeCardTextOn(clickEvent) {
     clickEvent.currentTarget.firstChild.disabled = false

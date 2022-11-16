@@ -5,7 +5,7 @@ export const htmlTemplates = {
 
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
-    [htmlTemplates.card]: cardBuilder
+    [htmlTemplates.card]: cardBuilder,
 };
 
 export function htmlFactory(template) {
@@ -21,8 +21,9 @@ export function htmlFactory(template) {
 }
 
 function boardBuilder(board) {
+
     return `<div class="accordion" id="accordionPanelsStayOpenExample">
-              <div class="accordion-item">
+              <div class="accordion-item" className="board-remove"><i className="fas fa-trash-alt"></i>
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                   <button data-board-id=${board.id} class="accordion-button text-dark bg bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne${board.id}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                   ${board.title}
@@ -37,8 +38,10 @@ function boardBuilder(board) {
                                 <div class="card" data-card-id="card">
                                     <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
                                     <div class="card-title">test</div>
-                                </div>
+                                </div>      
                             </div>
+                            <button type="button" class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="new-card-btn">
+                            + Add Card</button>
                         </div>
                         <div class="board-column column-in-progress">
                             <div class="board-column-title">In Progress</div>
@@ -73,33 +76,6 @@ function boardBuilder(board) {
               </div>
             </div>`;
 }
-
-            // <section class="board">
-            //     <div class="board-header" data-board-id=${board.id}>
-            //         <span class="board-title">${board.title}</span>
-            //         <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
-            //         <button class="board-add">Add Card</button>
-            //         <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            //     </div>
-            //     <div class="board-columns">
-            //         <div class="board-column column-new">
-            //             <div class="board-column-title">New</div>
-            //             <div class="board-column-content"></div>
-            //         </div>
-            //         <div class="board-column column-in-progress">
-            //             <div class="board-column-title">In Progress</div>
-            //             <div class="board-column-content"></div>
-            //         </div>
-            //         <div class="board-column column-testing">
-            //             <div class="board-column-title">Testing</div>
-            //             <div class="board-column-content"></div>
-            //         </div>
-            //         <div class="board-column column-done">
-            //             <div class="board-column-title">Done</div>
-            //             <div class="board-column-content"></div>
-            //         </div>
-            //     </div>
-            // </section>
 
 function cardBuilder(card) {
     return `<div class="card" data-card-id="${card.id}">

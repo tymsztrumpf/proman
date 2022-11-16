@@ -164,7 +164,7 @@ section.board{
     background: var(--status-4);
 }
 
-.card-remove{
+.card-remove, .board-remove{
     display: block;
     position: absolute;
     top: 4px;

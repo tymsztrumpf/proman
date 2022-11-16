@@ -44,3 +44,23 @@ def get_cards_for_board(board_id):
         , {"board_id": board_id})
 
     return matching_cards
+
+
+def create_new_board(board_title):
+    database_common.execute_insert('''
+    INSERT INTO boards (title)
+    VALUES (%(title)s);
+    ''', {'title': board_title})
+
+
+def create_new_card(card_title, board_id, status_id):
+    database_common.execute_insert('''
+    INSERT INTO cards (title, status, board_id)
+    VALUES
+    (
+        %(card_title)s,
+        %(status_id)s,
+        %(board_id)s
+    );
+    ''', {'card_title': card_title, 'board_id': board_id, 'status_id': status_id})
+

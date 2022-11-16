@@ -3,6 +3,7 @@ import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 
+
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
@@ -19,15 +20,21 @@ export let boardsManager = {
     },
     createNewBoard: function () {
         domManager.addEventListener(
-                `#add_board`,
+                `#new-board-btn`,
                 "click",
                  createBoard
             );
     }
 };
 
-function createBoard(){
-    let newBoard
+function createBoard(clickEvent){
+
+    const boardId = clickEvent.target.dataset.boardId;
+    console.log(clickEvent.target.dataset.id)
+    const board = dataHandler.createNewBoard(boardId);
+    const boardBuilder = htmlFactory(htmlTemplates.board);
+    const content = boardBuilder(board);
+    domManager.addChild("#root", content);
 }
 
 function showHideButtonHandler(clickEvent) {

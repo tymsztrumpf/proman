@@ -27,10 +27,10 @@ export let dataHandler = {
         await apiPut(`/api/boards/${boardId}/${cardId}/title/${title}`)
     },
     createNewBoard: async function (boardTitle) {
-        return await apiGet(`/api/boards/${boardTitle}`)
+        return await apiPost(`/api/boards/add-new/${boardTitle}`, {'boardTitle': boardTitle})
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
-        return await apiGet(`api/boards/${boardId}`,{'cardTitle':cardTitle, 'statusId':statusId} )
+        return await apiPost(`api/boards/new-card/${boardId}`, {'cardTitle':cardTitle, 'statusId':statusId} )
     },
 };
 
