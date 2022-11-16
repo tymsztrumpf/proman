@@ -13,9 +13,9 @@ export let cardsManager = {
         add_text_change(card);
       }
       domManager.addEventListener(
-        `.CreateCard[data-board-id="${boardId}"]`,
-        "click",
-        createCard
+          `.CreateCard[data-board-id="${boardId}"]`,
+          "click",
+          createCard
       );
     }
   },

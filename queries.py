@@ -140,3 +140,12 @@ def update_order_card(card_id,order):
     SET card_order = %(order)s
     WHERE id = %(card_id)s
     ''',{'card_id':card_id, 'order':order})
+
+
+def delete_card(card_id):
+    data_manager.execute_delete(
+        '''
+        DELETE FROM cards
+        WHERE id = %(card_id)s
+        ''', {'card_id':card_id})
+

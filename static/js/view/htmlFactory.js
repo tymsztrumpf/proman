@@ -6,6 +6,7 @@ export const htmlTemplates = {
     columnBody: 5
 }
 
+
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
     [htmlTemplates.card]: cardBuilder,
@@ -29,7 +30,11 @@ export function htmlFactory(template) {
 
 
 function cardBuilder(card, boardId) {
-    return `<div class="card" data-card-status="${card.status_id}" data-card-id="${card.id}" data-board-id=${boardId}><input class="col-sm-12" type="text" value="${card.title}" disabled></div>`;
+    return `<div class="card" data-card-status="${card.status_id}" data-card-id="${card.id}" data-board-id=${boardId}><div> 
+            <input class="col-sm-12" type="text" value="${card.title}" disabled>
+            <button class="btn btn-secondary btn-sm DeleteCard" card-id = ${card.id}>delete</button>
+            </div>
+            </div>`;
 }
 
 
@@ -38,8 +43,9 @@ function boardBuilder(board) {
     return `<div class="accordion" id="accordionPanelsStayOpenExample">
   <div class="accordion-item">
     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-      <button data-board-status="0" data-board-id=${board.id} class="accordion-button text-white bg bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne${board.id}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-      ${board.title}
+      <button data-board-status="0" data-board-id=${board.id} class="accordion-button text-white bg bg-dark" type="button" 
+              data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne${board.id}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    ${board.title}
       </button>
     </h2>
     <div id="panelsStayOpen-collapseOne${board.id}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">

@@ -134,7 +134,13 @@ def get_cards_for_board(board_id: int):
 @json_response
 def add_card(board_id: int, ):
     card = request.json
-    return queries.Add_card_to_board(board_id,card['status'],card['order'])
+    return queries.Add_card_to_board(board_id, card['status'], card['order'])
+
+@app.route('/api/cards/<card_id>', methods=['POST'])
+def delete_card(card_id):
+
+    print('test działania funkcji')
+
 
 
 def main():
