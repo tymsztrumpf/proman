@@ -6,7 +6,7 @@ import { cardsManager } from "./cardsManager.js";
 
 function addTitleColumn(element, boardId) {
     const columnBuilder = htmlFactory(htmlTemplates.columnTitle);
-    const content = columnBuilder(element.title, boardId);
+    const content = columnBuilder(element, boardId);
     domManager.addChild(`#column-head[data-board-id="${boardId}"]`, content);
 }
 
@@ -26,3 +26,12 @@ export let columnsManager = {
 
     },
 };
+
+function changeColumnName(clickEvent) {
+    let title = prompt("Please enter board name", clickEvent.target.innerHTML)
+    let id = clickEvent.target.dataset.boardId
+    dataHandler.changeBoardName(id, title).then(() => {
+        clickEvent.target.innerHTML = title;
+    })
+
+}

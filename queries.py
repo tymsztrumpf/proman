@@ -126,13 +126,14 @@ def update_board_title(board_id, title):
         
         """, {"title": title, 'board_id': board_id})
 
+
 def get_board_statuses(board_id):
     return data_manager.execute_select('''
-    select status_id as id,s.title from boards_statuses
-    inner join statuses as s on boards_statuses.status_id = s.id
-    where board_id = 1
-    order by status_id;
-''',{'board_id':board_id})
+    SELECT *
+    FROM statuses
+    WHERE board_id = %(board_id)s
+    ''', {'board_id': board_id})
+
 
 def update_order_card(card_id,order):
     data_manager.execute_insert('''    

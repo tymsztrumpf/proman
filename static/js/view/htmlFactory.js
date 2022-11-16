@@ -69,8 +69,8 @@ function newBoardSchema() {
         </div>
     </div>`}
 
-function columnTitleBuilder(title, boardId) {
-    return `<th class="text-light col-sm-3 " data-board-id=${boardId} scope="col">${title.toUpperCase()}</th>`
+function columnTitleBuilder(element, boardId) {
+    return `<th class="text-light col-sm-3 " data-board-id=${boardId} data-column-id=${element.id} scope="col">${element.title.toUpperCase()}</th>`
 }
 function columnBodyBuilder(id,status,boardId) {
     return `<td class="card-slot" data-column-id="${id}" data-column-status="${status}" data-board-id=${boardId}></td>`
