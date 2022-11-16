@@ -4,7 +4,6 @@ import bcrypt
 from dotenv import load_dotenv
 from flask import Flask, redirect, render_template, request, session, url_for
 
-import help_function
 import queries
 from util import json_response
 
@@ -76,14 +75,6 @@ def user_logout():
     session.clear()
     return redirect(url_for('index'))
 
-
-@app.route('/api/statuses')
-@json_response
-def get_statuses():
-    statuses = {}
-    for status in queries.get_statuses():
-        statuses[status['id']] = status['title']
-    return statuses
 
 @app.route("/api/boards")
 @json_response

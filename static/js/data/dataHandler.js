@@ -5,10 +5,6 @@ export let dataHandler = {
     getBoardStatuses: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/statuses`);
     },
-    getStatuses: async function (){
-        return await apiGet("/api/statuses");
-
-    },
     createNewBoard: async function (boardTitle) {
         await apiPost(`/api/boards`, { 'board_title': boardTitle })
     },
