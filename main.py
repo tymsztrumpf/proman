@@ -142,6 +142,11 @@ def delete_card(card_id):
     print('test działania funkcji')
 
 
+@app.route("/api/boards/<int:board_id>/columns",methods=["POST"])
+@json_response
+def create_column(board_id: int):
+    column = request.json
+    queries.create_column(board_id, column['title'])
 
 def main():
     # Serving the favicon
