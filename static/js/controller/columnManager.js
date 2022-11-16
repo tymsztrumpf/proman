@@ -6,7 +6,8 @@ import { cardsManager } from "./cardsManager.js";
 
 function addTitleColumn(element, boardId) {
     const columnBuilder = htmlFactory(htmlTemplates.columnTitle);
-    const content = columnBuilder(element.title, boardId);
+    const content = columnBuilder(element, boardId);
+    console.log(element)
     domManager.addChild(`#column-head[data-board-id="${boardId}"]`, content);
 }
 
@@ -21,7 +22,6 @@ export let columnsManager = {
             domManager.addChild(`#column-body[data-board-id="${boardId}"]`, content);
             counter += 1;
         })
-        counter = 0
         cardsManager.loadCards(boardId);
         domManager.addEventListener(
             `.CreateColumn[data-board-id="${boardId}"]`,
