@@ -29,6 +29,9 @@ export let dataHandler = {
     createColumn: async function (BoardId,columnTitle){
         await apiPost(`/api/boards/${BoardId}/columns`,{'title': columnTitle})
 
+    },
+    changeColumnName: async function (columnId, columnName) {
+        await apiPut(`/api/columns/${columnId}/name`,{'name': columnName})
     }
 };
 

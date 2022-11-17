@@ -128,7 +128,7 @@ def update_board_title(board_id, title):
 
 def get_board_statuses(board_id):
     return data_manager.execute_select('''
-    select status_id as id,s.title,boards_statuses.title as name from boards_statuses
+    select status_id as id,s.title,boards_statuses.title as name,boards_statuses.id as cloumn_id from boards_statuses
     inner join statuses as s on boards_statuses.status_id = s.id
     where board_id = %(board_id)s
     order by status_id;
@@ -141,12 +141,34 @@ def update_order_card(card_id,order):
     WHERE id = %(card_id)s
     ''',{'card_id':card_id, 'order':order})
 
-# def create_column(board_id,column_title):
-#     data_manager.execute_insert(
-#         """
-#         INSERT INTO statuses (title)
-#         VALUES (%(column_title)s);
-#         insert into boards_statuses (board_id,status_id)
-#         values (%(board_id)s,(select id from statuses where title = %(column_title)s))
-#         """,{'board_id':board_id, 'column_title':column_title}
-#     )
+def create_column(board_id,column_title):
+    data_manager.execute_insert(
+        """
+        INSERT INTO statuses (title)
+        VALUES (%(column_title)s);
+        insert into boards_statuses (board_id,status_id,title)
+        values (%(board_id)s,(select id from statuses where title = %(column_title)s),%(column_title)s)
+        """,{'board_id':board_id, 'column_title':column_title}
+    )
+
+def check_if_column_title_is_free(column_title):
+    return data_manager.execute_select('''
+        select title from statuses 
+        where title = %(column_title)s
+    ''',{'column_title':column_title})
+
+def create_column_without_status(board_id, column_title):
+    data_manager.execute_insert(
+        """
+        insert into boards_statuses (board_id,status_id,title)
+        values (%(board_id)s,(select id from statuses where title = %(column_title)s),%(column_title)s)
+        """,{'board_id':board_id, 'column_title':column_title}
+    )
+
+def rename_column(column_id,name):
+    data_manager.execute_insert(
+        """
+        UPDATE boards_statuses
+        SET title = %(name)s
+        WHERE id = %(column_id)s
+        """, {'column_id':column_id, 'name':name})
