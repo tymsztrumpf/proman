@@ -17,7 +17,6 @@ export let domManager = {
     },
     deleteChild(parentIdentifier, childIdentifier){
         const parent = document.querySelector(parentIdentifier);
-        console.log(parent, childIdentifier)
         if (parent) {
             parent.removeChild(childIdentifier);
         } else {

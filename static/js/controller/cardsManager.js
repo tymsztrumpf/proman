@@ -32,7 +32,6 @@ export let cardsManager = {
       else{
         counter ++
       }
-      console.log("cardid:",cardId,"counter:",counter)
       dataHandler.changeCardOrder(cardId, counter)
     })
   }
@@ -47,11 +46,11 @@ function add_fun_to_del_button(card) {
 
 function deleteCard(clickEvent) {
   let cardId = clickEvent.target.dataset.cardId
+  let boardId = clickEvent.target.dataset.boardId
   let columnStatus  = document.querySelector(`.card[data-card-id="${cardId}"]`).dataset.cardStatus
 
-
-  domManager.deleteChild(`.card-slot[data-column-status="${columnStatus}"]`,
-      document.querySelector(`.card[data-card-id="${cardId}"]`))
+  domManager.deleteChild(`.card-slot[data-column-status="${columnStatus}"][data-board-id = "${boardId}"]`,
+    document.querySelector(`.card[data-card-id="${cardId}"]`))
   dataHandler.deleteCard(cardId)
 }
 
@@ -95,24 +94,24 @@ function createCard(clickEvent) {
   const boardId = clickEvent.currentTarget.getAttribute("data-board-id");
   const cardStatus = document.querySelector('.card-slot[data-column-id="1"]').dataset.columnStatus
   const cardCounter = document.querySelector('.card-slot[data-column-id="1"]').innerHTML.split('</div>').length
-  console.log(cardCounter)
   dataHandler.createNewCard(boardId,cardStatus,cardCounter).then((json) => {
     json.forEach((element) => {
       const cardBuilder = htmlFactory(htmlTemplates.card);
       const content = cardBuilder(element, boardId);
-      domManager.addChild('.card-slot[data-column-id="1"]', content);
+      domManager.addChild(`.card-slot[data-column-id="1"][data-board-id="${boardId}"]`, content);
       add_text_change(element);
       dropManager.initDragAndDrop();
+      add_fun_to_del_button(element)
     });
   });
 }
 
 function changeCardTextOn(clickEvent) {
-  clickEvent.currentTarget.firstChild.disabled = false;
+  clickEvent.currentTarget.firstChild.children[0].disabled = false;
 }
 function changeCardTextOff(clickEvent) {
-  let cardTitle = clickEvent.currentTarget.firstChild.value;
+  let cardTitle = clickEvent.currentTarget.firstChild.children[0].value;
   let cardId = clickEvent.currentTarget.getAttribute("data-card-id");
-  clickEvent.currentTarget.firstChild.disabled = true;
+  clickEvent.currentTarget.firstChild.children[0].disabled = true;
   dataHandler.changeCardTitle(cardId, cardTitle);
 }

@@ -106,7 +106,6 @@ def change_board_title(board_id: int):
 @json_response
 def change_status_card(card_id: int):
     card = request.json
-    print(card['status'])
     queries.update_status_card(card_id, card['status'])
 
 
@@ -137,8 +136,8 @@ def add_card(board_id: int, ):
     return queries.Add_card_to_board(board_id, card['status'], card['order'])
 
 @app.route('/api/cards/<card_id>', methods=['DELETE'])
+@json_response
 def delete_card(card_id):
-    print('funkcja wchodzi tutaj')
     queries.delete_card(card_id)
 
 
