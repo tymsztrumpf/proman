@@ -102,7 +102,7 @@ def Add_card_to_board(board_id,status,order):
         """
         INSERT INTO cards (board_id,status_id,title,card_order)
         VALUES (%(board_id)s,%(status)s,'',%(order)s)
-        RETURNING id ,title
+        RETURNING id ,title,status_id
         """, {"board_id": board_id,'status':status,'order':order})
     return result
 
@@ -128,9 +128,10 @@ def update_board_title(board_id, title):
 
 def get_board_statuses(board_id):
     return data_manager.execute_select('''
-    select id,title from statuses
+    select status_id as id,s.title,boards_statuses.title as name,boards_statuses.id as cloumn_id from boards_statuses
+    inner join statuses as s on boards_statuses.status_id = s.id
     where board_id = %(board_id)s
-    order by id;
+    order by status_id;
 ''',{'board_id':board_id})
 
 def update_order_card(card_id,order):
@@ -143,8 +144,24 @@ def update_order_card(card_id,order):
 def create_column(board_id,column_title):
     data_manager.execute_insert(
         """
-        INSERT INTO statuses (board_id,title)
-        VALUES (%(board_id)s,%(column_title)s);
+        INSERT INTO statuses (title)
+        VALUES (%(column_title)s);
+        insert into boards_statuses (board_id,status_id,title)
+        values (%(board_id)s,(select id from statuses where title = %(column_title)s),%(column_title)s)
+        """,{'board_id':board_id, 'column_title':column_title}
+    )
+
+def check_if_column_title_is_free(column_title):
+    return data_manager.execute_select('''
+        select title from statuses 
+        where title = %(column_title)s
+    ''',{'column_title':column_title})
+
+def create_column_without_status(board_id, column_title):
+    data_manager.execute_insert(
+        """
+        insert into boards_statuses (board_id,status_id,title)
+        values (%(board_id)s,(select id from statuses where title = %(column_title)s),%(column_title)s)
         """,{'board_id':board_id, 'column_title':column_title}
     )
 
@@ -157,3 +174,11 @@ def delete_card(card_id):
         WHERE id = %(card_id)s
         ''', {'card_id':card_id})
 
+
+def rename_column(column_id,name):
+    data_manager.execute_insert(
+        """
+        UPDATE boards_statuses
+        SET title = %(name)s
+        WHERE id = %(column_id)s
+        """, {'column_id':column_id, 'name':name})

@@ -146,7 +146,17 @@ def delete_card(card_id):
 @json_response
 def create_column(board_id: int):
     column = request.json
-    queries.create_column(board_id, column['title'])
+    if not queries.check_if_column_title_is_free(column['title']):
+        queries.create_column(board_id, column['title'])
+    else:
+        queries.create_column_without_status(board_id, column['title'])
+
+@app.route("/api/columns/<int:column_id>/name", methods=['PUT'])
+@json_response
+def rename_column(column_id: int):
+    column = request.json
+    queries.rename_column(column_id, column['name'])
+
 
 def main():
     # Serving the favicon
