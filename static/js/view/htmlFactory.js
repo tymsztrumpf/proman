@@ -32,7 +32,7 @@ export function htmlFactory(template) {
 function cardBuilder(card, boardId) {
     return `<div class="card" data-card-status="${card.status_id}" data-card-id="${card.id}" data-board-id=${boardId}><div> 
             <input class="col-sm-12" type="text" value="${card.title}" disabled>
-            <button class="btn btn-secondary btn-sm DeleteCard" card-id = ${card.id}>delete</button>
+            <button data-card-id = ${card.id} class="btn btn-secondary btn-sm DeleteCard">delete</button>
             </div>
             </div>`;
 }

@@ -136,10 +136,10 @@ def add_card(board_id: int, ):
     card = request.json
     return queries.Add_card_to_board(board_id, card['status'], card['order'])
 
-@app.route('/api/cards/<card_id>', methods=['POST'])
+@app.route('/api/cards/<card_id>', methods=['DELETE'])
 def delete_card(card_id):
-
-    print('test działania funkcji')
+    print('funkcja wchodzi tutaj')
+    queries.delete_card(card_id)
 
 
 @app.route("/api/boards/<int:board_id>/columns",methods=["POST"])

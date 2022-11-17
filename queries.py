@@ -151,7 +151,7 @@ def create_column(board_id,column_title):
 
 
 def delete_card(card_id):
-    data_manager.execute_delete(
+    data_manager.execute_insert(
         '''
         DELETE FROM cards
         WHERE id = %(card_id)s

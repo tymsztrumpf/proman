@@ -11,6 +11,7 @@ export let cardsManager = {
         addCardToColumn(card, boardId);
         dropManager.initDragAndDrop();
         add_text_change(card);
+        add_fun_to_del_button(card);
       }
       domManager.addEventListener(
           `.CreateCard[data-board-id="${boardId}"]`,
@@ -36,6 +37,23 @@ export let cardsManager = {
     })
   }
 };
+
+function add_fun_to_del_button(card) {
+  domManager.addEventListener(
+          `.DeleteCard[data-card-id="${card.id}"]`,
+          "click",
+          deleteCard)
+}
+
+function deleteCard(clickEvent) {
+  let cardId = clickEvent.target.dataset.cardId
+  let columnStatus  = document.querySelector(`.card[data-card-id="${cardId}"]`).dataset.cardStatus
+
+
+  domManager.deleteChild(`.card-slot[data-column-status="${columnStatus}"]`,
+      document.querySelector(`.card[data-card-id="${cardId}"]`))
+  dataHandler.deleteCard(cardId)
+}
 
 async function addCardToColumn(card, boardId) {
   const cardBuilder = htmlFactory(htmlTemplates.card);
