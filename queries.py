@@ -102,7 +102,7 @@ def Add_card_to_board(board_id,status,order):
         """
         INSERT INTO cards (board_id,status_id,title,card_order)
         VALUES (%(board_id)s,%(status)s,'',%(order)s)
-        RETURNING id ,title
+        RETURNING id ,title,status_id
         """, {"board_id": board_id,'status':status,'order':order})
     return result
 
