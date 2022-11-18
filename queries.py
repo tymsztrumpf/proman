@@ -29,8 +29,10 @@ def get_boards():
 def get_cards_for_board(board_id):
     matching_cards = data_manager.execute_select(
         """
-        SELECT * FROM cards
-        WHERE board_id = %(board_id)s
+        SELECT c.*,bs.id as column_id
+        FROM cards as c
+        inner join boards_statuses as bs on bs.status_id = c.status_id and bs.board_id = c.board_id
+        WHERE c.board_id = %(board_id)s
         order by card_order
         ;
         """, {"board_id": board_id})
@@ -182,3 +184,22 @@ def rename_column(column_id,name):
         SET title = %(name)s
         WHERE id = %(column_id)s
         """, {'column_id':column_id, 'name':name})
+
+def delete_column(column_id):
+    data_manager.execute_insert(
+        """
+        DELETE FROM boards_statuses
+        WHERE id = %(column_id)s
+        """, {'column_id':column_id})
+
+def delete_board(board_id):
+    data_manager.execute_insert(
+        '''
+        Delete FROM cards 
+        WHERE board_id = %(board_id)s;
+        DELETE FROM boards_statuses
+        WHERE board_id = %(board_id)s;
+        Delete FROM boards
+        WHERE id = %(board_id)s
+        ''', {'board_id':board_id})
+

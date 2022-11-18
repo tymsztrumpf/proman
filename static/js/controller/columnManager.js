@@ -1,4 +1,4 @@
-import { dataHandler } from "../data/dataHandler.js";
+import {dataHandler as dataManager, dataHandler} from "../data/dataHandler.js";
 import { domManager } from "../view/domManager.js";
 import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
 import { cardsManager } from "./cardsManager.js";
@@ -17,20 +17,19 @@ function addFunctionClickToAddColumn(boardId) {
         createColumn)
 }
 
-function buildBodyColumn(counter, element, boardId) {
+function buildBodyColumn(element, boardId) {
     const columnBuilder = htmlFactory(htmlTemplates.columnBody);
-    const content = columnBuilder(counter, element.id, boardId);
+    const content = columnBuilder(element, boardId);
     domManager.addChild(`#column-body[data-board-id="${boardId}"]`, content);
 }
 
 export let columnsManager = {
     loadColumns: async function (boardId) {
-        let counter = 1;
         let boardStatuses =  await dataHandler.getBoardStatuses(boardId)
         boardStatuses.forEach(element =>{
             addTitleColumn(element, boardId);
-            buildBodyColumn(counter, element, boardId);
-            counter += 1;
+            addFunctionClickToChangeDeleteColumn(element, boardId)
+            buildBodyColumn(element, boardId);
         })
         cardsManager.loadCards(boardId);
         addFunctionClickToAddColumn(boardId);
@@ -38,6 +37,27 @@ export let columnsManager = {
     },
 };
 
+function addFunctionClickToChangeDeleteColumn(column,boardId){
+    document.querySelectorAll(`.DeleteColumn[data-board-id="${boardId}"][data-column-id="${column.cloumn_id}"]`).forEach(btnDelete =>{
+        btnDelete.addEventListener("click",(btn) =>{
+            let columnId = btn.target.dataset.columnId
+            console.log(columnId)
+            document.querySelectorAll(`.card[data-column-id="${columnId}"]`).forEach(card => {
+                dataHandler.deleteCard(card.dataset.cardId)
+            })
+            dataHandler.deleteColumn(columnId)
+            reloadcolumns(boardId)
+
+        })
+    })
+}
+
+function reloadcolumns(boardId) {
+    console.log(document.querySelector(`#column-head[data-board-id="${boardId}"]`).innerHTML = '')
+    document.querySelector(`#column-body[data-board-id="${boardId}"]`).innerHTML = ''
+    columnsManager.loadColumns(boardId)
+
+}
 function createColumn (clickEvent)  {
     const boardId = clickEvent.currentTarget.getAttribute("data-board-id");
     let columnName = prompt("Please enter column name")

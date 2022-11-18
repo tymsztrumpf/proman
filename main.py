@@ -156,12 +156,22 @@ def rename_column(column_id: int):
     column = request.json
     queries.rename_column(column_id, column['name'])
 
+@app.route("/api/boards/<int:board_id>", methods=["DELETE"])
+@json_response
+def delete_board(board_id):
+    queries.delete_board(board_id)
+@app.route("/api/columns/<int:column_id>",methods=["DELETE"])
+@json_response
+def delete_column(column_id):
+    queries.delete_column(column_id)
+
 
 def main():
     # Serving the favicon
     with app.app_context():
         app.add_url_rule(
             '/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
+
 
 
 if __name__ == '__main__':

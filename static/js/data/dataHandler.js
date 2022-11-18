@@ -14,6 +14,9 @@ export let dataHandler = {
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards`);
     },
+    deleteBoard: async function (boardId) {
+        await apiDelete(`/api/boards/${boardId}`);
+    },
     createNewCard: async function (boardId,cardStatus,cardCounter) {
         return await apiPost(`/api/boards/${boardId}/cards`,{ 'status': cardStatus,'order':cardCounter })
     },
@@ -35,6 +38,10 @@ export let dataHandler = {
     },
     changeColumnName: async function (columnId, columnName) {
         await apiPut(`/api/columns/${columnId}/name`,{'name': columnName})
+    },
+    deleteColumn: async function(columnId){
+        await apiDelete(`/api/columns/${columnId}`)
+
     }
 };
 

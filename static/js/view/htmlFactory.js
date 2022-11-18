@@ -30,7 +30,7 @@ export function htmlFactory(template) {
 
 
 function cardBuilder(card, boardId) {
-    return `<div class="card" data-card-status="${card.status_id}" data-card-id="${card.id}" data-board-id=${boardId}><div> 
+    return `<div class="card" data-column-id="${card.column_id}" data-card-status="${card.status_id}" data-card-id="${card.id}" data-board-id=${boardId}><div> 
             <input class="col-sm-12" type="text" value="${card.title}" disabled>
             <button data-card-id = ${card.id} data-board-id =${boardId} class="btn btn-secondary btn-sm DeleteCard">delete</button>
             </div>
@@ -40,8 +40,10 @@ function cardBuilder(card, boardId) {
 
 function boardBuilder(board) {
     // language=HTML
-    return `<div class="accordion" id="accordionPanelsStayOpenExample">
-  <div class="accordion-item">
+    return `
+        <button id="delateButton" data-board-id=${board.id}>Delete Board</button>
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+  <div class="accordion-item"  data-board-id=${board.id}>
     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
       <button data-board-status="0" data-board-id=${board.id} class="accordion-button text-white bg bg-dark" type="button" 
               data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne${board.id}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -77,8 +79,16 @@ function newBoardSchema() {
     </div>`}
 
 function columnTitleBuilder(column, boardId) {
-    return `<th class="text-light column" data-column-id="${column.cloumn_id}" data-board-id=${boardId} scope="col">${column.name.toUpperCase()}</th>`
+    return `
+            <th class="text-light column" data-column-id="${column.cloumn_id}" data-board-id=${boardId} scope="col">
+                <span data-column-id="${column.cloumn_id}" data-board-id=${boardId} >
+                 ${column.name.toUpperCase()}
+                </span>
+                <span>
+                <button data-column-id = ${column.cloumn_id} data-board-id =${boardId} class="btn btn-secondary btn-sm DeleteColumn">delete</button>
+                </span>
+            </th>`
 }
-function columnBodyBuilder(id,status,boardId) {
-    return `<td class="card-slot" data-column-id="${id}" data-column-status="${status}" data-board-id=${boardId}></td>`
+function columnBodyBuilder(column,boardId) {
+    return `<td class="card-slot" data-column-id="${column.cloumn_id}" data-column-status="${column.id}" data-board-id=${boardId}></td>`
 }

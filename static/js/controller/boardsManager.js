@@ -4,8 +4,27 @@ import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
 import {columnsManager} from "./columnManager.js";
 
 
-
-
+function addFunctionToChangeName(board) {
+    domManager.addEventListener(
+        `.accordion-button[data-board-id="${board.id}"]`,
+        "dblclick",
+        change_name
+    );
+}
+async function deleteBoard(clickEvent) {
+    let id = clickEvent.target.dataset.boardId
+    await dataHandler.deleteBoard(id)
+    console.log(document.querySelector(`.accordion-item[data-board-id="${id}"]`))
+    document.querySelector("#root").innerHTML = ''
+    boardsManager.loadBoards()
+}
+function addFunctionToDeleteBoard(board) {
+    domManager.addEventListener(
+        `#delateButton[data-board-id="${board.id}"]`,
+        "click",
+        deleteBoard
+    );
+}
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
@@ -14,11 +33,9 @@ export let boardsManager = {
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
             addAcordingFunction(board);
-            domManager.addEventListener(
-                `.accordion-button[data-board-id="${board.id}"]`,
-                "dblclick",
-                change_name
-            );
+            addFunctionToChangeName(board);
+            addFunctionToDeleteBoard(board)
+
         }
     },
     createNewBoard: function () {
